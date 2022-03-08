@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": [
+      "DOM",
+      "DOM.Iterable"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
+    "importsNotUsedAsValues": "error",
+    "noFallthroughCasesInSwitch": true
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "/src/**/*.ts",
+    "**/src/**/*.ts",
+    "/src/**/*.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/reportWebVitals.js"
+  ]
+}
