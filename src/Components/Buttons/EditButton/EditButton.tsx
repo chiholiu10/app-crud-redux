@@ -1,27 +1,15 @@
-import React, { FC, memo } from "react";
-import { connect, ConnectedProps, useDispatch } from "react-redux";
-import { modalToggle } from "../../../actions";
+import React, { FC } from "react";
+import { EditButtonComponent } from "./EditButton.styles";
 
-export const EditButton: FC<EditProps> = () => {
-  const dispatch = useDispatch();
-  const OpenModal = () => {
-    dispatch(modalToggle(true));
-  };
+type editPropsOne = {
+  editCurrentItem: (event: React.MouseEvent<HTMLElement>) => void;
+};
+
+export const EditButton: FC<editPropsOne> = ({ editCurrentItem }) => {
 
   return (
-    <div onClick={OpenModal}>
+    <EditButtonComponent onClick={editCurrentItem}>
       Edit Button
-    </div>
+    </EditButtonComponent>
   );
 };
-
-const mapStateToProps = (state: any) => {
-  console.log(state.reducer);
-  return {
-    dataResult: state.reducer.result || []
-  };
-};
-
-const connector = connect(mapStateToProps);
-type EditProps = ConnectedProps<typeof connector>;
-export default connector(memo(EditButton));

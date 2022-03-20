@@ -1,9 +1,11 @@
-import React, { useEffect, memo, FC } from "react";
-import { ContainerBlock, ContainerImage } from "../../App.styles";
+import React, { useEffect, memo, FC, useState } from "react";
+import { Container, ContainerBlock, ContainerImage } from "../../App.styles";
 import { LikeButton } from "../Buttons/LikeButton/LikeButton";
 import { fetchData } from "../../Services/api";
 import { deleteData, getData, modalToggle, passModalData } from "../../actions";
 import { connect, ConnectedProps, useDispatch } from "react-redux";
+import Modal from "../Modal/Modal";
+import { EditButton } from "../Buttons/EditButton/EditButton";
 
 type Item = {
   id: number,
@@ -14,8 +16,9 @@ type Item = {
 };
 
 const Application: FC<ApplicationProps> = ({ dataResult }) => {
+  console.log(dataResult);
   const dispatch = useDispatch();
-
+  const [editText, setEditText] = useState<object>({});
   const loadData = async () => {
     try {
       const data = await fetchData();
@@ -35,8 +38,15 @@ const Application: FC<ApplicationProps> = ({ dataResult }) => {
       <div></div>
     );
   }
+
+  const editItem = (item: any) => {
+    setEditText({ ...editText, item });
+    dispatch(passModalData(item));
+    dispatch(modalToggle(true));
+  };
+
   return (
-    <div>
+    <Container>
       {dataResult?.map((item: Item) => (
         <ContainerBlock key={item.id}>
           <div>{item.temp2m}</div>
@@ -46,20 +56,18 @@ const Application: FC<ApplicationProps> = ({ dataResult }) => {
           <ContainerImage src={`https://avatars.dicebear.com/v2/avataaars/${item.username}.svg?options[mood][]=happy`} />
           <div>
             <LikeButton />
-            <button onClick={() => {
-              dispatch(modalToggle(true));
-              dispatch(passModalData(item));
-            }}>Edit Button</button>
+            <EditButton editCurrentItem={() => editItem(item)}>Edit Button</EditButton>
             <button onClick={() => dispatch(deleteData(item.id))} >Delete</button>
           </div>
         </ContainerBlock>
       ))}
-    </div >
+      <Modal />
+    </Container >
   );
 
 };
 
-const mapStateToProps = (state: any) => {
+const mapStateToProps = (state: { reducer: { result: Item[]; }; }) => {
   return {
     dataResult: state.reducer.result || []
   };

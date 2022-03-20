@@ -1,9 +1,9 @@
-import { FC, memo } from "react";
+import React, { FC, memo } from "react";
 import { connect, ConnectedProps, useDispatch } from "react-redux";
 import { editText, modalToggle, passModalData } from "../../actions";
-import { Modal } from "../Modal/Modal.styles";
+import { Modal, ModalBlockButton, ModalBlockButtonContainer, ModalButtonClose, ModalButtonGeneral, ModalContainer, ModalInputName, ModalInputUsername } from "../Modal/Modal.styles";
 
-export const ModalBlock: FC<ModalProps> = ({ modalData }) => {
+export const ModalBlock: FC<ModalProps> = ({ modalData, modalToggling }) => {
   const dispatch = useDispatch();
   const getName = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue: string = e.target.value;
@@ -13,7 +13,7 @@ export const ModalBlock: FC<ModalProps> = ({ modalData }) => {
     }));
   };
 
-  const getUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const getUsername = (e: any) => {
     const newValue: string = e.target.value;
     dispatch(passModalData({
       ...modalData,
@@ -32,22 +32,30 @@ export const ModalBlock: FC<ModalProps> = ({ modalData }) => {
   const closeModal = () => dispatch(modalToggle(false));
 
   return (
-    <Modal isOpen={true}>
-      <input type="text" value={modalData.name} onChange={(event) => getName(event)} />
-      <input type="text" value={modalData.username} onChange={(event) => getUsername(event)} />
-      <button onClick={() => closeModal()} >Cancel</button>
-      <button onClick={() => {
-        confirmChange();
-        closeModal();
-      }}>Save</button>
-    </Modal>
+    <ModalContainer isOpen={modalToggling}>
+      <Modal >
+        <ModalInputName type="text" value={modalData.name || ''} onChange={(event) => getName(event)} />
+        <ModalInputUsername type="text" value={modalData.username || ''} onChange={(event: any) => getUsername(event)} />
+        <ModalBlockButton>
+          <ModalBlockButtonContainer>
+            <ModalButtonClose onClick={() => closeModal()} >Cancel</ModalButtonClose>
+          </ModalBlockButtonContainer>
+          <ModalBlockButtonContainer>
+            <ModalButtonGeneral onClick={() => {
+              confirmChange();
+              closeModal();
+            }}>Save</ModalButtonGeneral>
+          </ModalBlockButtonContainer>
+        </ModalBlockButton>
+      </Modal>
+    </ModalContainer>
   );
 };
 
 const mapStateToProps = (state: any) => {
-
   return {
-    modalData: state.reducer.inputValue || []
+    modalData: state.reducer.inputValue || [],
+    modalToggling: state.reducer.modalToggle
   };
 };
 

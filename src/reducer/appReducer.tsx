@@ -1,11 +1,12 @@
 import { types } from "../actions";
 
 const initialState: any = {
-
+  inputValue: {}
 };
 
 export interface State {
   result: Array<any>;
+  inputValue: any;
 }
 
 export const reducer = (state = initialState, action: any): State => {

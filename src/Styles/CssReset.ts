@@ -74,6 +74,14 @@ export const CSSreset = createGlobalStyle(
       line-height: 1.15;
       margin: 0;
     }
+    input {
+      border: 2px solid transparent;
+      padding: 5px !important;
+    }
+    input:focus {
+      outline: none;
+      border: 2px solid #719ECE;
+    }
     button {
       border: none;
       margin: 0;
